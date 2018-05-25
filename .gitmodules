@@ -1,0 +1,6 @@
+[submodule "mackerel-agent-plugins-git"]
+	path = mackerel-agent-plugins-git
+	url = ssh://aur.archlinux.org/mackerel-agent-plugins-git.git
+[submodule "mackerel-check-plugins-git"]
+	path = mackerel-check-plugins-git
+	url = ssh://aur.archlinux.org/mackerel-check-plugins-git.git
