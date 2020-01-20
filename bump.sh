@@ -5,6 +5,7 @@ if [[ -z $1 ]] || [[ -z $2 ]]; then
     exit 1
 fi
 
+parent_repo=$(cd $(dirname $0) && pwd)
 package_repo=$(cd $1 && pwd)
 source_repo=$(cd $2 && pwd)
 
@@ -28,3 +29,6 @@ makepkg --printsrcinfo > .SRCINFO && \
 git -C "$package_repo" add -A && \
 git -C "$package_repo" commit -m "$latest_tag" && \
 git -C "$package_repo" push -u origin master
+
+git -C "$parent_repo" add "$package_repo" && \
+git -C "$parent_repo" commit -m "Bump to $latest_tag"
