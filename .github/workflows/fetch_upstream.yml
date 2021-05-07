@@ -1,0 +1,58 @@
+name: Fetch Upstream
+
+on: [workflow_dispatch]
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: agent
+        name: Get Latest Release (mackerel-agent-plugins)
+        uses: pozetroninc/github-action-get-latest-release@v0.5.0
+        with:
+          repository: mackerelio/mackerel-agent-plugins
+          excludes: prerelease, draft
+
+      - id: check
+        name: Get Latest Release (go-check-plugins)
+        uses: pozetroninc/github-action-get-latest-release@v0.5.0
+        with:
+          repository: mackerelio/go-check-plugins
+          excludes: prerelease, draft
+      
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Update Version (mackerel-agent-plugins-git)
+        run: |
+          latest_agent_plugins=$(echo ${{ steps.agent.outputs.release }} | cut -c 2-)
+          sed -i "s/^pkgver=.*/pkgver=$latest_agent_plugins/" mackerel-agent-plugins-git/PKGBUILD
+          cat mackerel-agent-plugins-git/PKGBUILD
+
+      - name: Create Pull Request (mackerel-agent-plugins-git)
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Bump to ${{ steps.agent.outputs.release }}
+          commit-message: Bump to ${{ steps.agent.outputs.release }}
+          branch: agent/${{ steps.agent.outputs.release }}
+          labels: mackerel-agent-plugins-git
+          delete-branch: true
+      
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Update Version (mackerel-check-plugins-git)
+        run: |
+          latest_check_plugins=$(echo ${{ steps.check.outputs.release }} | cut -c 2-)
+          sed -i "s/^pkgver=.*/pkgver=$latest_check_plugins/" mackerel-check-plugins-git/PKGBUILD
+          cat mackerel-check-plugins-git/PKGBUILD
+
+      - name: Create Pull Request (mackerel-check-plugins-git)
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Bump to ${{ steps.check.outputs.release }}
+          commit-message: Bump to ${{ steps.check.outputs.release }}
+          branch: agent/${{ steps.check.outputs.release }}
+          labels: mackerel-check-plugins-git
+          delete-branch: true
