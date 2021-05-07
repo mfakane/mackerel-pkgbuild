@@ -1,0 +1,46 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  Test_mackerel-agent-plugins-git:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate PKGBUILD
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: pkgbuild
+          pkgname: mackerel-agent-plugins-git
+
+      - name: Validate executable
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: run
+          pkgname: mackerel-agent-plugins-git
+          command: 'mackerel-plugin || [ $? -eq 1 ]'
+
+  Test_mackerel-check-plugins-git:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate PKGBUILD
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: pkgbuild
+          pkgname: mackerel-check-plugins-git
+
+      - name: Validate executable
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: run
+          pkgname: mackerel-check-plugins-git
+          command: 'mackerel-check || [ $? -eq 1 ]'
