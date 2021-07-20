@@ -2,10 +2,8 @@ name: mackerel-agent-plugins
 
 on:
   push:
-    branches: [master]
     paths: ['mackerel-agent-plugins/**']
   pull_request:
-    branches: [master]
     paths: ['mackerel-agent-plugins/**']
 
 jobs:

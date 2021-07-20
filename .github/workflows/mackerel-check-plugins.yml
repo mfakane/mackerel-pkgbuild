@@ -2,7 +2,6 @@ name: mackerel-check-plugins
 
 on:
   push:
-    branches: [master]
     paths: ['mackerel-check-plugins/**']
   pull_request:
     paths: ['mackerel-check-plugins/**']
