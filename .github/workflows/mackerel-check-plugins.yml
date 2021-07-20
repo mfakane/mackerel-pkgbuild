@@ -1,0 +1,52 @@
+name: mackerel-check-plugins
+
+on:
+  push:
+    paths: ['mackerel-check-plugins-git/**']
+    branches: [master]
+  pull_request:
+    paths: ['mackerel-check-plugins-git/**']
+    branches: [master]
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate PKGBUILD
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: pkgbuild
+          pkgname: mackerel-check-plugins-git
+
+      - name: Validate executable
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: run
+          pkgname: mackerel-check-plugins-git
+          command: 'mackerel-check || [ $? -eq 1 ]'
+
+  Deploy:
+    if: ${{ github.event_name == 'push' }}
+    needs: Test
+    runs-on: ubuntu-latest
+
+    environment:
+      name: AUR
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Publish AUR package
+        uses: KSXGitHub/github-actions-deploy-aur@v2.2.4
+        with:
+          pkgname: mackerel-check-plugins-git
+          pkgbuild: ./mackerel-check-plugins-git/PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          commit_message: ${{ github.event.head_commit.message }}
