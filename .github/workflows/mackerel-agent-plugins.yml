@@ -1,0 +1,52 @@
+name: mackerel-agent-plugins
+
+on:
+  push:
+    branches: [master]
+    paths: ['mackerel-agent-plugins/**']
+  pull_request:
+    branches: [master]
+    paths: ['mackerel-agent-plugins/**']
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate PKGBUILD
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: pkgbuild
+          pkgname: mackerel-agent-plugins-git
+
+      - name: Validate executable
+        uses: 2m/arch-pkgbuild-builder@v1.16
+        with:
+          target: run
+          pkgname: mackerel-agent-plugins-git
+          command: 'mackerel-plugin || [ $? -eq 1 ]'
+
+  Deploy:
+    if: ${{ github.event == 'push' && github.ref == 'refs/heads/master' }}
+    needs: Test
+    runs-on: ubuntu-latest
+
+    environment:
+      name: AUR
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Publish AUR package
+        uses: KSXGitHub/github-actions-deploy-aur@v2.2.4
+        with:
+          pkgname: mackerel-agent-plugins-git
+          pkgbuild: ./mackerel-agent-plugins-git/PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          commit_message: ${{ github.event.head_commit.message }}
