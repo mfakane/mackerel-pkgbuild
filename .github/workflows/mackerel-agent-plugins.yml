@@ -6,6 +6,7 @@ on:
     branches: [master]
   pull_request:
     paths: ['mackerel-agent-plugins-git/**']
+    branches: [master]
 
 jobs:
   Test:
