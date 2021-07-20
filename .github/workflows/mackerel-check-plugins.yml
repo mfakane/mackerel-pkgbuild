@@ -5,7 +5,6 @@ on:
     branches: [master]
     paths: ['mackerel-check-plugins/**']
   pull_request:
-    branches: [master]
     paths: ['mackerel-check-plugins/**']
 
 jobs:
