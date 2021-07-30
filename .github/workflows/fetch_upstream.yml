@@ -1,6 +1,10 @@
 name: Fetch Upstream
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+  schedule:
+    # Every sunday 04:00
+    - cron: "0 4 * * 0"
 
 jobs:
   fetch:
