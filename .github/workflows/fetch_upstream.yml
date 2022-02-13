@@ -57,6 +57,6 @@ jobs:
         with:
           title: Bump to ${{ steps.check.outputs.release }}
           commit-message: Bump to ${{ steps.check.outputs.release }}
-          branch: agent/${{ steps.check.outputs.release }}
+          branch: check/${{ steps.check.outputs.release }}
           labels: mackerel-check-plugins-git
           delete-branch: true
