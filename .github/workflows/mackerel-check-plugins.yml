@@ -7,6 +7,7 @@ on:
   pull_request:
     paths: ['mackerel-check-plugins-git/**']
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   Test:
@@ -16,18 +17,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Validate PKGBUILD
-        uses: 2m/arch-pkgbuild-builder@v1.18
+      - name: Makepkg Build and Check
+        id: makepkg
+        uses: edlanglois/pkgbuild-action@v1
         with:
-          target: pkgbuild
-          pkgname: mackerel-check-plugins-git
+          pkgdir: mackerel-check-plugins-git
 
-      - name: Validate executable
-        uses: 2m/arch-pkgbuild-builder@v1.18
-        with:
-          target: run
-          pkgname: mackerel-check-plugins-git
-          command: 'mackerel-check || [ $? -eq 1 ]'
+      - name: Print Package Files
+        run: |
+          echo "Successfully created the following package archive"
+          echo "Package: ${{ steps.makepkg.outputs.pkgfile0 }}"
 
   Deploy:
     if: ${{ github.event_name == 'push' }}
