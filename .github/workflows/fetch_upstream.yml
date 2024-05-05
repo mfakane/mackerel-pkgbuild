@@ -13,14 +13,14 @@ jobs:
     steps:
       - id: agent
         name: Get Latest Release (mackerel-agent-plugins)
-        uses: pozetroninc/github-action-get-latest-release@v0.7.0
+        uses: pozetroninc/github-action-get-latest-release@v0.8.0
         with:
           repository: mackerelio/mackerel-agent-plugins
           excludes: prerelease, draft
 
       - id: check
         name: Get Latest Release (go-check-plugins)
-        uses: pozetroninc/github-action-get-latest-release@v0.7.0
+        uses: pozetroninc/github-action-get-latest-release@v0.8.0
         with:
           repository: mackerelio/go-check-plugins
           excludes: prerelease, draft
