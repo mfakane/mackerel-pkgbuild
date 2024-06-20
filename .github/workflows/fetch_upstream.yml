@@ -35,7 +35,7 @@ jobs:
           cat mackerel-agent-plugins-git/PKGBUILD
 
       - name: Create Pull Request (mackerel-agent-plugins-git)
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           title: Bump to ${{ steps.agent.outputs.release }}
           commit-message: Bump to ${{ steps.agent.outputs.release }}
@@ -53,7 +53,7 @@ jobs:
           cat mackerel-check-plugins-git/PKGBUILD
 
       - name: Create Pull Request (mackerel-check-plugins-git)
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           title: Bump to ${{ steps.check.outputs.release }}
           commit-message: Bump to ${{ steps.check.outputs.release }}
