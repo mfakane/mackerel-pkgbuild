@@ -26,7 +26,7 @@ jobs:
           excludes: prerelease, draft
       
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Update Version (mackerel-agent-plugins-git)
         run: |
@@ -44,7 +44,7 @@ jobs:
           delete-branch: true
       
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Update Version (mackerel-check-plugins-git)
         run: |
