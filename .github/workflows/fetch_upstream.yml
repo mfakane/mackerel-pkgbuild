@@ -13,20 +13,20 @@ jobs:
     steps:
       - id: agent
         name: Get Latest Release (mackerel-agent-plugins)
-        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+        uses: pozetroninc/github-action-get-latest-release@2a61c339ea7ef0a336d1daa35ef0cb1418e7676c # v0.8.0
         with:
           repository: mackerelio/mackerel-agent-plugins
           excludes: prerelease, draft
 
       - id: check
         name: Get Latest Release (go-check-plugins)
-        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+        uses: pozetroninc/github-action-get-latest-release@2a61c339ea7ef0a336d1daa35ef0cb1418e7676c # v0.8.0
         with:
           repository: mackerelio/go-check-plugins
           excludes: prerelease, draft
       
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Update Version (mackerel-agent-plugins-git)
         run: |
@@ -44,7 +44,7 @@ jobs:
           delete-branch: true
       
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Update Version (mackerel-check-plugins-git)
         run: |
