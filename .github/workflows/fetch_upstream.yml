@@ -13,20 +13,20 @@ jobs:
     steps:
       - id: agent
         name: Get Latest Release (mackerel-agent-plugins)
-        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+        uses: pozetroninc/github-action-get-latest-release@2a61c339ea7ef0a336d1daa35ef0cb1418e7676c # v0.8.0
         with:
           repository: mackerelio/mackerel-agent-plugins
           excludes: prerelease, draft
 
       - id: check
         name: Get Latest Release (go-check-plugins)
-        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+        uses: pozetroninc/github-action-get-latest-release@2a61c339ea7ef0a336d1daa35ef0cb1418e7676c # v0.8.0
         with:
           repository: mackerelio/go-check-plugins
           excludes: prerelease, draft
       
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Update Version (mackerel-agent-plugins-git)
         run: |
@@ -35,7 +35,7 @@ jobs:
           cat mackerel-agent-plugins-git/PKGBUILD
 
       - name: Create Pull Request (mackerel-agent-plugins-git)
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@3ffccacd46053766916f087ce41d627c0b8cf2d1 # v8
         with:
           title: Bump to ${{ steps.agent.outputs.release }}
           commit-message: Bump to ${{ steps.agent.outputs.release }}
@@ -44,7 +44,7 @@ jobs:
           delete-branch: true
       
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Update Version (mackerel-check-plugins-git)
         run: |
@@ -53,7 +53,7 @@ jobs:
           cat mackerel-check-plugins-git/PKGBUILD
 
       - name: Create Pull Request (mackerel-check-plugins-git)
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@3ffccacd46053766916f087ce41d627c0b8cf2d1 # v8
         with:
           title: Bump to ${{ steps.check.outputs.release }}
           commit-message: Bump to ${{ steps.check.outputs.release }}
